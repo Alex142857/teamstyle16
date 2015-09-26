@@ -246,7 +246,34 @@ class Replay(QGraphicsView):
 				self.setCursor(cursor)
 			
 		
-index]
+
+		elif event.button() == Qt.RightButton:
+			if not self.HUMAN_REPLAY in [0, 1, 2]:
+				return
+			if not self.SelectedIndex:
+				return
+			if self.HUMAN_REPLAY in [0, 1]:
+				if self.SelectedIndex.team != self.HUMAN_REPLAY:
+					return
+			pos = event.pos()
+			items = self.items(pos)
+			if not items:
+				return
+			maprecord = False
+			get_unit = False
+			for it in items:
+				if isinstance(it, SoldierUnit) and it.obj.team != self.SelectedIndex.team:  #如果点击对象是单位，并且点击对象和被选中的单位不属于同一队伍，则攻击
+					get_unit = True
+					new_command = command.AttackUnit(self.SelectedIndex.index, it.obj.index)
+					self.command_list.append(new_command)
+					self.attack_list[self.SelectedIndex.index] = new_command
+				elif isinstance(it, SoldierUnit) and it.obj.team == self.SelectedIndex.team:
+					if it.obj.kind in [4, 5, 6, 7, 8, 9] and self.SelectedIndex.kind == 0:
+						get_unit = True
+						#如果之前选中了基地，再右击可被维修的单位，则发出维修指令
+						new_command = command.Fix(self.SelectedIndex.index, it.obj.index)
+						if self.SelectedIndex.index in self.attack_list.keys():
+							del self.attack_list[self.SelectedIndex.index]
 						self.command_list.append(new_command)
 					elif it.obj.kind in [0, 1, 4, 5, 6, 7, 8, 9] and self.SelectedIndex.kind in [1,6,7]:
 						get_unit = True
