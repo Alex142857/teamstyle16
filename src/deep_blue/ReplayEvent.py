@@ -181,23 +181,7 @@ class Replay(QGraphicsView):
 					if self.moveani:
 						self.moveani.stop()
 						self.moveani.deleteLater()
-						self.moveani = None
-					if not self.mouseUnit.isVisible():
-						self.mouseUnit.setVisible(True)
-					self.mouseUnit.size = focus.obj.size[0]
-					self.mouseUnit.setPos(focus.corX, focus.corY, focus.corZ)
-				else:
-					self.SelectedIndex = None
-			#点击键盘后的左键指令只判断接收方是否符合要求，对发起方的要求在keyPressEvent中判断
-			elif self.key_pressed == 1:
-				flag1 = False
-				flag2 = False
-				pos = None
-				for it in items:
-					if isinstance(it, SoldierUnit) and it.obj.team != self.SelectedIndex.team:
-						#self.emit(SIGNAL("attackTargetSelected"), it.obj)
-						new_command = command.AttackUnit(self.SelectedIndex.index, it.obj.index)
-						self.command_list.append(new_command)
+		收费规范拜访拜访拜访的帮助下凤凰
 						self.attack_list[self.SelectedIndex.index] = new_command
 						self.key_pressed = 0
 						flag1 = True
